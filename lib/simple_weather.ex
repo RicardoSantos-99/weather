@@ -1,4 +1,5 @@
 defmodule SimpleWeather do
+  @spec start(list) :: list
   def start(cities) do
     cities
     |> Enum.map(&create_task/1)

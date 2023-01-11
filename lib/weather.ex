@@ -3,6 +3,7 @@ defmodule Weather do
   Documentation for `Weather`.
   """
 
+  @spec start(any) :: list
   def start(cities) do
     # Cria um processo da função manager inicializando com
     # uma lista vazia e o total de cidades.
@@ -22,6 +23,7 @@ defmodule Weather do
     end)
   end
 
+  @spec get_temperature :: any()
   def get_temperature() do
     # Recebe o PID do manager e a cidade.
 
@@ -41,6 +43,7 @@ defmodule Weather do
     get_temperature()
   end
 
+  @spec manager(list(), integer()) :: :ok
   def manager(cities \\ [], total) do
     # Se o manager receber a temperatura e :ok a mantém em uma lista (que foi inicializada como vazia no início).
 
@@ -69,22 +72,24 @@ defmodule Weather do
     end
   end
 
+  @spec get_appid :: String.t()
   def get_appid() do
     System.get_env("WEATHER_KEY")
-    |> IO.inspect(label: "lib/weather.ex:8")
   end
 
+  @spec get_endpoint(String.t()) :: String.t()
   def get_endpoint(location) do
     location = URI.encode(location)
 
     "http://api.openweathermap.org/data/2.5/weather?q=#{location}&appid=#{get_appid()}"
-    |> IO.inspect(label: "lib/weather.ex:13")
   end
 
+  @spec kelvin_to_celsius(number) :: float
   def kelvin_to_celsius(kelvin) do
     (kelvin - 273.15) |> Float.round(1)
   end
 
+  @spec temperature_of(String.t()) :: String.t()
   def temperature_of(location) do
     result = get_endpoint(location) |> HTTPoison.get() |> parser_response
 
